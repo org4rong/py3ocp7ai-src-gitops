@@ -35,6 +35,13 @@ spec:
         - /spec/selector
         - /spec/completionMode
       kind: Job
+   # Ignore PVCs auto-created by StatefulSets only
+    - group: ""
+      kind: PersistentVolumeClaim
+      nameRegex: "^(minio-data-.*|.*-pgvector-data-.*)"
+      jsonPointers:
+        - /status
+        - /metadata
   syncPolicy:
     managedNamespaceMetadata:
       labels: 
