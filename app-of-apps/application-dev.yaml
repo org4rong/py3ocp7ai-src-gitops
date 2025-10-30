@@ -35,13 +35,12 @@ spec:
         - /spec/selector
         - /spec/completionMode
       kind: Job
-   # Ignore PVCs auto-created by StatefulSets only
-    - group: ""
-      kind: PersistentVolumeClaim
-      nameRegex: "^(minio-data-.*|.*-pgvector-data-.*)"
+    # Ignore StatefulSet volumeClaimTemplates (ArgoCD adds apiVersion/kind)
+    - group: apps
+      kind: StatefulSet
       jsonPointers:
-        - /status
-        - /metadata
+        - /spec/volumeClaimTemplates/0/apiVersion
+        - /spec/volumeClaimTemplates/0/kind
   syncPolicy:
     managedNamespaceMetadata:
       labels: 
