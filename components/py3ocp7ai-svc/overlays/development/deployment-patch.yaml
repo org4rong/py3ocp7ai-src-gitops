@@ -12,7 +12,7 @@ spec:
   template:
     spec:
       containers:
-        - image: quay.io/org4rong/py3ocp7ai-img:ea824a0cd53d91e141651a8a4258c0a1d1002de9@sha256:b937dfa3737b801bf9453122a881a4b2bed2b656992ceb31d75d6032c864cbd6
+        - image: quay.io/org4rong/py3ocp7ai-img:0dc6a78906973ac189c468bfe5fcc02e6d788d1a@sha256:082849a7ab76a5a509e592eeedc20acd2c2bb10a3363c18dd136926bd4a60824
           name: container-image
 ---
 # RAG UI Ingestion Pipeline Deployment
@@ -30,7 +30,7 @@ spec:
   template:
     spec:
       containers:
-        - image: quay.io/ecosystem-appeng/ingestion-pipeline:0.2.18
+        - image: quay.io/org4rong/py3ocp7ai-img:0dc6a78906973ac189c468bfe5fcc02e6d788d1a@sha256:082849a7ab76a5a509e592eeedc20acd2c2bb10a3363c18dd136926bd4a60824
           name: ingestion-pipeline
 ---
 # RAG UI Deployment
@@ -48,7 +48,7 @@ spec:
   template:
     spec:
       containers:
-        - image: quay.io/ecosystem-appeng/llamastack-dist-ui:0.2.9
+        - image: quay.io/org4rong/py3ocp7ai-img:0dc6a78906973ac189c468bfe5fcc02e6d788d1a@sha256:082849a7ab76a5a509e592eeedc20acd2c2bb10a3363c18dd136926bd4a60824
           name: rag
 ---
 # LlamaStack Deployment
@@ -66,7 +66,7 @@ spec:
   template:
     spec:
       containers:
-        - image: llamastack/distribution-starter:0.2.18
+        - image: quay.io/org4rong/py3ocp7ai-img:0dc6a78906973ac189c468bfe5fcc02e6d788d1a@sha256:082849a7ab76a5a509e592eeedc20acd2c2bb10a3363c18dd136926bd4a60824
           name: llama-stack
 ---
 # Toolhive Operator Deployment
@@ -84,5 +84,5 @@ spec:
   template:
     spec:
       containers:
-        - image: ghcr.io/stacklok/toolhive/operator:v0.3.5
+        - image: quay.io/org4rong/py3ocp7ai-img:0dc6a78906973ac189c468bfe5fcc02e6d788d1a@sha256:082849a7ab76a5a509e592eeedc20acd2c2bb10a3363c18dd136926bd4a60824
           name: manager
