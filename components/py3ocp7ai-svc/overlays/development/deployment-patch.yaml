@@ -6,13 +6,15 @@ metadata:
     tad.gitops.get/image: ".spec.template.spec.containers[0].image"
     tad.gitops.set/replicas: ".spec.replicas"
     tad.gitops.get/replicas: ".spec.replicas"
+    repository-permalinks:
+      - "https://github.com/org4rong/py3ocp7ai-src/commit/28f7c937328c6f2ca840d626f0bae47e8cdc7a0b"
   name: py3ocp7ai-svc
 spec:
   replicas: 1
   template:
     spec:
       containers:
-        - image: quay.io/org4rong/py3ocp7ai-img:0dc6a78906973ac189c468bfe5fcc02e6d788d1a@sha256:082849a7ab76a5a509e592eeedc20acd2c2bb10a3363c18dd136926bd4a60824
+        - image: quay.io/org4rong/py3ocp7ai-img:28f7c937328c6f2ca840d626f0bae47e8cdc7a0b@sha256:cb16b8ac8211e4a2c7e7cd488ec0309fcb8eda171f787eb7884711a33f6a1cd2
           name: container-image
 ---
 # RAG UI Ingestion Pipeline Deployment
@@ -24,13 +26,15 @@ metadata:
     tad.gitops.get/image: ".spec.template.spec.containers[0].image"
     tad.gitops.set/replicas: ".spec.replicas"
     tad.gitops.get/replicas: ".spec.replicas"
+    repository-permalinks:
+      - "https://github.com/org4rong/py3ocp7ai-src/commit/28f7c937328c6f2ca840d626f0bae47e8cdc7a0b"
   name: rag-ingestion-pipeline
 spec:
   replicas: 1
   template:
     spec:
       containers:
-        - image: quay.io/org4rong/py3ocp7ai-img:0dc6a78906973ac189c468bfe5fcc02e6d788d1a@sha256:082849a7ab76a5a509e592eeedc20acd2c2bb10a3363c18dd136926bd4a60824
+        - image: quay.io/org4rong/py3ocp7ai-img:28f7c937328c6f2ca840d626f0bae47e8cdc7a0b@sha256:cb16b8ac8211e4a2c7e7cd488ec0309fcb8eda171f787eb7884711a33f6a1cd2
           name: ingestion-pipeline
 ---
 # RAG UI Deployment
@@ -42,13 +46,15 @@ metadata:
     tad.gitops.get/image: ".spec.template.spec.containers[0].image"
     tad.gitops.set/replicas: ".spec.replicas"
     tad.gitops.get/replicas: ".spec.replicas"
+    repository-permalinks:
+      - "https://github.com/org4rong/py3ocp7ai-src/commit/28f7c937328c6f2ca840d626f0bae47e8cdc7a0b"
   name: rag
 spec:
   replicas: 1
   template:
     spec:
       containers:
-        - image: quay.io/org4rong/py3ocp7ai-img:0dc6a78906973ac189c468bfe5fcc02e6d788d1a@sha256:082849a7ab76a5a509e592eeedc20acd2c2bb10a3363c18dd136926bd4a60824
+        - image: quay.io/org4rong/py3ocp7ai-img:28f7c937328c6f2ca840d626f0bae47e8cdc7a0b@sha256:cb16b8ac8211e4a2c7e7cd488ec0309fcb8eda171f787eb7884711a33f6a1cd2
           name: rag
 ---
 # LlamaStack Deployment
@@ -60,13 +66,15 @@ metadata:
     tad.gitops.get/image: ".spec.template.spec.containers[0].image"
     tad.gitops.set/replicas: ".spec.replicas"
     tad.gitops.get/replicas: ".spec.replicas"
+    repository-permalinks:
+      - "https://github.com/org4rong/py3ocp7ai-src/commit/28f7c937328c6f2ca840d626f0bae47e8cdc7a0b"
   name: llamastack
 spec:
   replicas: 1
   template:
     spec:
       containers:
-        - image: quay.io/org4rong/py3ocp7ai-img:0dc6a78906973ac189c468bfe5fcc02e6d788d1a@sha256:082849a7ab76a5a509e592eeedc20acd2c2bb10a3363c18dd136926bd4a60824
+        - image: quay.io/org4rong/py3ocp7ai-img:28f7c937328c6f2ca840d626f0bae47e8cdc7a0b@sha256:cb16b8ac8211e4a2c7e7cd488ec0309fcb8eda171f787eb7884711a33f6a1cd2
           name: llama-stack
 ---
 # Toolhive Operator Deployment
@@ -78,11 +86,13 @@ metadata:
     tad.gitops.get/image: ".spec.template.spec.containers[0].image"
     tad.gitops.set/replicas: ".spec.replicas"
     tad.gitops.get/replicas: ".spec.replicas"
+    repository-permalinks:
+      - "https://github.com/org4rong/py3ocp7ai-src/commit/28f7c937328c6f2ca840d626f0bae47e8cdc7a0b"
   name: toolhive-operator
 spec:
   replicas: 1
   template:
     spec:
       containers:
-        - image: quay.io/org4rong/py3ocp7ai-img:0dc6a78906973ac189c468bfe5fcc02e6d788d1a@sha256:082849a7ab76a5a509e592eeedc20acd2c2bb10a3363c18dd136926bd4a60824
+        - image: quay.io/org4rong/py3ocp7ai-img:28f7c937328c6f2ca840d626f0bae47e8cdc7a0b@sha256:cb16b8ac8211e4a2c7e7cd488ec0309fcb8eda171f787eb7884711a33f6a1cd2
           name: manager
