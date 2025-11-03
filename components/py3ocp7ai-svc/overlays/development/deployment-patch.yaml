@@ -7,12 +7,12 @@ metadata:
     tad.gitops.set/replicas: ".spec.replicas"
     tad.gitops.get/replicas: ".spec.replicas"
     repository-permalinks:
-      - "https://github.com/org4rong/py3ocp7ai-src/commit/5a510aa286612150a78d5fcd52865e9a36f26958"
+      - "https://github.com/org4rong/py3ocp7ai-src/commit/2aba463ef632191f93f50f742516958e2ca0ad08"
   name: py3ocp7ai-svc
 spec:
   replicas: 1
   template:
     spec:
       containers:
-        - image: quay.io/org4rong/py3ocp7ai-img:5a510aa286612150a78d5fcd52865e9a36f26958@sha256:1768aad50cb29434c8f41aae66af23fa8887a0a08dcc3d5079964ef413ac011f
+        - image: quay.io/org4rong/py3ocp7ai-img:2aba463ef632191f93f50f742516958e2ca0ad08@sha256:1e4ff15a2964bb12e5b58699302fc59aca0c8b35da1a9caa8ac4805f27aa314a
           name: container-image
