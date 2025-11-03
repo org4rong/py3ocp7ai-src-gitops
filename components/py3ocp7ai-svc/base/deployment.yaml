@@ -6,7 +6,7 @@ metadata:
     tad.gitops.get/image: ".spec.template.spec.containers[0].image"
     tad.gitops.set/replicas: ".spec.replicas"
     tad.gitops.get/replicas: ".spec.replicas"
-    repository-permalinks: []
+    repository-permalink: ""
   labels: 
     app.kubernetes.io/instance: py3ocp7ai-svc
     app.kubernetes.io/managed-by: kustomize
