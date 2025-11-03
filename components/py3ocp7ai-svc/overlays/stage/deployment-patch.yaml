@@ -7,7 +7,7 @@ metadata:
     tad.gitops.set/replicas: ".spec.replicas"
     tad.gitops.get/replicas: ".spec.replicas"
     repository-permalinks:
-      - "https://github.com/org4rong/py3ocp7ai-src/commit/5a510aa286612150a78d5fcd52865e9a36f26958"
+      - "https://github.com/org4rong/py3ocp7ai-src/commit/2aba463ef632191f93f50f742516958e2ca0ad08"
   name: py3ocp7ai-svc
 spec:
   replicas: 1
