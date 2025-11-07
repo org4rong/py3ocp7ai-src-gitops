@@ -6,7 +6,7 @@ metadata:
     tad.gitops.get/image: ".spec.template.spec.containers[0].image"
     tad.gitops.set/replicas: ".spec.replicas"
     tad.gitops.get/replicas: ".spec.replicas"
-    sscs-repo-permalink: https://github.com/org4rong/py3ocp7ai-src/commit/71e8f8ec0e0bb19383534e012fa93ec28a783134
+    sscs-repo-permalink: https://github.com/org4rong/py3ocp7ai-src/commit/e5409c236693da4bd20185c1739d484ebabc78ba
     sscs-image-risk: 6
   name: py3ocp7ai-svc
 spec:
@@ -14,5 +14,5 @@ spec:
   template:
     spec:
       containers:
-        - image: quay.io/org4rong/py3ocp7ai-img:71e8f8ec0e0bb19383534e012fa93ec28a783134@sha256:bb0e37dc1356bf1fa42665ba437a4a1bb71839aaa07cdf1911d26dc9875b48eb
+        - image: quay.io/org4rong/py3ocp7ai-img:e5409c236693da4bd20185c1739d484ebabc78ba@sha256:946ab8821401b5e63b238272e89f3959d0dafdc6c75f715323285a8574899b23
           name: container-image
