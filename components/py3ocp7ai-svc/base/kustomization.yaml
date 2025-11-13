@@ -36,7 +36,7 @@ resources:
 
   # Jobs
   # - rag-job-add-default-ingestion-pipeline.yaml  # Disabled - optional setup job, can be done manually
-  - rag-job-upload-sample-docs-job.yaml
+  # - rag-job-upload-sample-docs-job.yaml
 
   # MCP Servers
   # - rag-mcpserver-oracle-sqlcl.yaml  # Disabled - requires oracle23ai secret
@@ -47,7 +47,7 @@ resources:
 
   # PersistentVolumeClaims
   - rag-persistentvolumeclaim-llama-stack-data.yaml
-  - rag-persistentvolumeclaim-pipeline-vol.yaml
+  # - rag-persistentvolumeclaim-pipeline-vol.yaml
   - rag-persistentvolumeclaim-weather.yaml
 
   # Other Resources
