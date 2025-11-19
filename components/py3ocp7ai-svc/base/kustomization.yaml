@@ -26,7 +26,7 @@ resources:
   - rag-datasciencepipelinesapplication-dspa.yaml
 
   # Deployments
-  - rag-deployment-rag-ingestion-pipeline.yaml
+  # - rag-deployment-rag-ingestion-pipeline.yaml
   - rag-deployment-rag.yaml
   - rag-deployment-llamastack.yaml
   - rag-deployment-toolhive-operator.yaml
@@ -51,7 +51,7 @@ resources:
   - rag-persistentvolumeclaim-weather.yaml
 
   # Other Resources
-  - rag-resource-34.yaml
+  # - rag-resource-34.yaml
 
   # RBAC (Namespace-scoped)
   - rag-role-secret-writer.yaml
@@ -61,23 +61,23 @@ resources:
 
   # Routes
   - rag-route-rag.yaml
-  - rag-route-minio-api.yaml
-  - rag-route-minio-webui.yaml
+  # - rag-route-minio-api.yaml
+  # - rag-route-minio-webui.yaml
 
   # Services
-  - rag-service-rag-ingestion-pipeline.yaml
+  # - rag-service-rag-ingestion-pipeline.yaml
   - rag-service-rag.yaml
   - rag-service-llamastack.yaml
-  - rag-service-minio.yaml
+  # - rag-service-minio.yaml
   - rag-service-pgvector.yaml
 
   # ServiceAccounts
-  - rag-serviceaccount-rag-ingestion-pipeline.yaml
+  # - rag-serviceaccount-rag-ingestion-pipeline.yaml
   - rag-serviceaccount-toolhive-operator.yaml
 
   # ServingRuntime
   - rag-servingruntime-vllm-serving-runtime-gpu.yaml
 
   # StatefulSets
-  - rag-statefulset-minio.yaml
-  - rag-statefulset-pgvector.yaml
+  # - rag-statefulset-minio.yaml
+  # - rag-statefulset-pgvector.yaml
