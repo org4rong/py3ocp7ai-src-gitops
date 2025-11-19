@@ -37,7 +37,7 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: LLAMA_STACK_ENDPOINT
-              value: http://llamastack:8321
+              value: http://llamastack.common-llm.svc.cluster.local:8321
             - name: TMPDIR
               value: /tmp
           ports:

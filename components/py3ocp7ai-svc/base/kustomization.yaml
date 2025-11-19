@@ -28,11 +28,11 @@ resources:
   # Deployments
   # - rag-deployment-rag-ingestion-pipeline.yaml
   - rag-deployment-rag.yaml
-  - rag-deployment-llamastack.yaml
+  # - rag-deployment-llamastack.yaml
   - rag-deployment-toolhive-operator.yaml
 
   # InferenceService (KServe)
-  - rag-inferenceservice-llama-3-2-3b-instruct.yaml
+  # - rag-inferenceservice-llama-3-2-3b-instruct.yaml
 
   # Jobs
   # - rag-job-add-default-ingestion-pipeline.yaml  # Disabled - optional setup job, can be done manually
@@ -46,7 +46,7 @@ resources:
   # - rag-notebook-rag-pipeline-notebook.yaml
 
   # PersistentVolumeClaims
-  - rag-persistentvolumeclaim-llama-stack-data.yaml
+  # - rag-persistentvolumeclaim-llama-stack-data.yaml
   # - rag-persistentvolumeclaim-pipeline-vol.yaml
   - rag-persistentvolumeclaim-weather.yaml
 
@@ -67,7 +67,7 @@ resources:
   # Services
   # - rag-service-rag-ingestion-pipeline.yaml
   - rag-service-rag.yaml
-  - rag-service-llamastack.yaml
+  # - rag-service-llamastack.yaml
   # - rag-service-minio.yaml
   # - rag-service-pgvector.yaml
 
@@ -76,7 +76,7 @@ resources:
   - rag-serviceaccount-toolhive-operator.yaml
 
   # ServingRuntime
-  - rag-servingruntime-vllm-serving-runtime-gpu.yaml
+  # - rag-servingruntime-vllm-serving-runtime-gpu.yaml
 
   # StatefulSets
   # - rag-statefulset-minio.yaml
