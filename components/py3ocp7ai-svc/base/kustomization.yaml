@@ -23,7 +23,7 @@ resources:
   - rag-configmap-vllm-chat-templates.yaml
 
   # Data Science Pipelines
-  - rag-datasciencepipelinesapplication-dspa.yaml
+  # - rag-datasciencepipelinesapplication-dspa.yaml
 
   # Deployments
   # - rag-deployment-rag-ingestion-pipeline.yaml
@@ -43,7 +43,7 @@ resources:
   - rag-mcpserver-weather.yaml
 
   # Notebook
-  - rag-notebook-rag-pipeline-notebook.yaml
+  # - rag-notebook-rag-pipeline-notebook.yaml
 
   # PersistentVolumeClaims
   - rag-persistentvolumeclaim-llama-stack-data.yaml
@@ -69,7 +69,7 @@ resources:
   - rag-service-rag.yaml
   - rag-service-llamastack.yaml
   # - rag-service-minio.yaml
-  - rag-service-pgvector.yaml
+  # - rag-service-pgvector.yaml
 
   # ServiceAccounts
   # - rag-serviceaccount-rag-ingestion-pipeline.yaml
