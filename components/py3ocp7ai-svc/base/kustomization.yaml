@@ -11,16 +11,16 @@ resources:
   - route.yaml
   - service.yaml
   # Cluster-scoped resources (RBAC)
-  - rag-clusterrole-toolhive-operator-manager-role.yaml
-  - rag-clusterrole-toolhive-operator-cluster-permissions.yaml
-  - rag-clusterrolebinding-tssc-app-development-toolhive-operator-anyuid.yaml
-  - rag-clusterrolebinding-toolhive-operator-manager-rolebinding.yaml
-  - rag-clusterrolebinding-toolhive-operator-cluster-binding.yaml
+  # - rag-clusterrole-toolhive-operator-manager-role.yaml
+  # - rag-clusterrole-toolhive-operator-cluster-permissions.yaml
+  # - rag-clusterrolebinding-tssc-app-development-toolhive-operator-anyuid.yaml
+  # - rag-clusterrolebinding-toolhive-operator-manager-rolebinding.yaml
+  # - rag-clusterrolebinding-toolhive-operator-cluster-binding.yaml
 
   # ConfigMaps
-  - rag-configmap-pgvector-initsql.yaml
-  - rag-configmap-run-config.yaml
-  - rag-configmap-vllm-chat-templates.yaml
+  # - rag-configmap-pgvector-initsql.yaml
+  # - rag-configmap-run-config.yaml
+  # - rag-configmap-vllm-chat-templates.yaml
 
   # Data Science Pipelines
   # - rag-datasciencepipelinesapplication-dspa.yaml
@@ -29,7 +29,7 @@ resources:
   # - rag-deployment-rag-ingestion-pipeline.yaml
   - rag-deployment-rag.yaml
   # - rag-deployment-llamastack.yaml
-  - rag-deployment-toolhive-operator.yaml
+  # - rag-deployment-toolhive-operator.yaml
 
   # InferenceService (KServe)
   # - rag-inferenceservice-llama-3-2-3b-instruct.yaml
@@ -40,7 +40,7 @@ resources:
 
   # MCP Servers
   # - rag-mcpserver-oracle-sqlcl.yaml  # Disabled - requires oracle23ai secret
-  - rag-mcpserver-weather.yaml
+  # - rag-mcpserver-weather.yaml
 
   # Notebook
   # - rag-notebook-rag-pipeline-notebook.yaml
@@ -48,16 +48,16 @@ resources:
   # PersistentVolumeClaims
   # - rag-persistentvolumeclaim-llama-stack-data.yaml
   # - rag-persistentvolumeclaim-pipeline-vol.yaml
-  - rag-persistentvolumeclaim-weather.yaml
+  # - rag-persistentvolumeclaim-weather.yaml
 
   # Other Resources
   # - rag-resource-34.yaml
 
   # RBAC (Namespace-scoped)
-  - rag-role-secret-writer.yaml
-  - rag-role-toolhive-operator-leader-election-role.yaml
-  - rag-rolebinding-secret-writer-binding.yaml
-  - rag-rolebinding-toolhive-operator-leader-election-rolebinding.yaml
+  # - rag-role-secret-writer.yaml
+  # - rag-role-toolhive-operator-leader-election-role.yaml
+  # - rag-rolebinding-secret-writer-binding.yaml
+  # - rag-rolebinding-toolhive-operator-leader-election-rolebinding.yaml
 
   # Routes
   - rag-route-rag.yaml
@@ -73,7 +73,7 @@ resources:
 
   # ServiceAccounts
   # - rag-serviceaccount-rag-ingestion-pipeline.yaml
-  - rag-serviceaccount-toolhive-operator.yaml
+  # - rag-serviceaccount-toolhive-operator.yaml
 
   # ServingRuntime
   # - rag-servingruntime-vllm-serving-runtime-gpu.yaml
