@@ -6,14 +6,14 @@ metadata:
     tad.gitops.get/image: ".spec.template.spec.containers[0].image"
     tad.gitops.set/replicas: ".spec.replicas"
     tad.gitops.get/replicas: ".spec.replicas"
-    sscs-repo-permalink: https://github.com/org4rong/py3ocp7ai-src/commit/c6433df5c80c7f0e8c080708e6c6689e4d91382c
+    sscs-repo-permalink: https://github.com/org4rong/py3ocp7ai-src/commit/36b572a64e278479e2c2e8e2ffbf425d17f9d4a7
     sscs-image-risk: 6
-    sscs-image-scanner: ./roxctl image scan --insecure-skip-tls-verify -e central-stackrox.apps.rhocp1.hcp.res.ibm.com:443 --image quay.io/org4rong/py3ocp7ai-img:c6433df5c80c7f0e8c080708e6c6689e4d91382c@sha256:eb82471de99326e64a345cfa4735718776d62018d619aa7a7aaa139bdbcf92ca --output json --force
+    sscs-image-scanner: ./roxctl image scan --insecure-skip-tls-verify -e central-stackrox.apps.rhocp1.hcp.res.ibm.com:443 --image quay.io/org4rong/py3ocp7ai-img:36b572a64e278479e2c2e8e2ffbf425d17f9d4a7@sha256:5bf9940dc1da74cad06d95392071687da7353213a92be79ae8a56e7aecf443e0 --output json --force
   name: py3ocp7ai-svc
 spec:
   replicas: 1
   template:
     spec:
       containers:
-        - image: quay.io/org4rong/py3ocp7ai-img:c6433df5c80c7f0e8c080708e6c6689e4d91382c@sha256:eb82471de99326e64a345cfa4735718776d62018d619aa7a7aaa139bdbcf92ca
+        - image: quay.io/org4rong/py3ocp7ai-img:36b572a64e278479e2c2e8e2ffbf425d17f9d4a7@sha256:5bf9940dc1da74cad06d95392071687da7353213a92be79ae8a56e7aecf443e0
           name: container-image
