@@ -1,0 +1,168 @@
+# NAME: pgvector
+# CHART: pgvector
+# VERSION: 0.5.1
+# APP_VERSION: 0.5.1
+# ANNOTATIONS:
+# LABELS: modifiedAt=1763578376,name=pgvector,owner=helm,status=deployed,version=1
+# DEPENDENCIES:
+# NAMESPACE: common-llm
+# REVISION: 1
+# STATUS: deployed
+# DEPLOYED_AT: 2025-11-19T13:52:54-05:00
+# APPLY_METHOD: client-side apply (defaulted)
+
+# USER-SUPPLIED VALUES:
+# null
+# ---
+# In addition, create/ensure a Secret in the `common-llm` namespace named `pgvector`. Example data and structure provided below.
+# - user: postgres
+# - password: <choose>
+# - host: pgvector
+# - port: 5432
+# - dbname: rag_blueprint
+# - jdbc-uri: jdbc:postgresql://pgvector.common-llm:5432/rag_blueprint?password=<password>&user=postgres
+# - uri: postgresql://postgres:<password>@pgvector.common-llm:5432/rag_blueprint
+# ---
+# kind: Secret
+# apiVersion: v1
+# metadata:
+#   name: pgvector
+#   labels:
+#     helm.sh/chart: pgvector-0.5.1
+#     app.kubernetes.io/name: pgvector
+#     app.kubernetes.io/instance: pgvector
+#     app.kubernetes.io/version: "0.5.1"
+#     app.kubernetes.io/managed-by: Helm
+# data:
+#   user:
+#   password:
+#   host:
+#   port:
+#   dbname:
+#   jdbc-uri:
+#   uri:
+# type: Opaque
+---
+# Source: pgvector/templates/configmap.yaml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: pgvector-initsql
+  labels:
+    helm.sh/chart: pgvector-0.5.1
+    app.kubernetes.io/name: pgvector
+    app.kubernetes.io/instance: pgvector
+    app.kubernetes.io/version: "0.5.1"
+    app.kubernetes.io/managed-by: Helm
+data:
+  init-db.sh: |
+    #!/bin/bash
+    set -e
+    psql -U postgres -c "CREATE DATABASE ${POSTGRES_DBNAME};"
+    psql -U postgres -d ${POSTGRES_DBNAME} -c "CREATE EXTENSION VECTOR;"
+---
+# Source: pgvector/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgvector
+  labels:
+    helm.sh/chart: pgvector-0.5.1
+    app.kubernetes.io/name: pgvector
+    app.kubernetes.io/instance: pgvector
+    app.kubernetes.io/version: "0.5.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: pgvector
+    app.kubernetes.io/instance: pgvector
+---
+# Source: pgvector/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pgvector
+  labels:
+    helm.sh/chart: pgvector-0.5.1
+    app.kubernetes.io/name: pgvector
+    app.kubernetes.io/instance: pgvector
+    app.kubernetes.io/version: "0.5.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: pgvector
+      app.kubernetes.io/instance: pgvector
+  volumeClaimTemplates:
+    - metadata:
+        name: pg-data
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: pgvector-0.5.1
+        app.kubernetes.io/name: pgvector
+        app.kubernetes.io/instance: pgvector
+        app.kubernetes.io/version: "0.5.1"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: default
+      containers:
+        - name: pgvector
+          image: "docker.io/pgvector/pgvector:pg17"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: pgvector
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: pgvector
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: pgvector
+            - name: POSTGRES_DBNAME
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: pgvector
+          ports:
+            - name: http
+              containerPort: 5432
+              protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  for db in "$POSTGRES_DBNAME"; do
+                    pg_isready -U "$POSTGRES_USER" -d "$db" -h 127.0.0.1 -p "$POSTGRES_PORT" || exit 1
+                  done
+          volumeMounts:
+            - mountPath: /docker-entrypoint-initdb.d
+              name: initdb-volume
+            - mountPath: /var/lib/postgresql
+              name: pg-data
+      volumes:
+        - name: initdb-volume
+          configMap:
+            name: pgvector-initsql

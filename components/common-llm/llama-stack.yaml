@@ -1,0 +1,329 @@
+# NAME: llama-stack
+# CHART: llama-stack
+# VERSION: 0.1.0
+# APP_VERSION: 1.16.0
+# ANNOTATIONS:
+# LABELS: modifiedAt=1763656876,name=llama-stack,owner=helm,status=deployed,version=1
+# DEPENDENCIES:
+# NAMESPACE: common-llm
+# REVISION: 1
+# STATUS: deployed
+# DEPLOYED_AT: 2025-11-20T11:41:14-05:00
+# APPLY_METHOD: client-side apply (defaulted)
+#
+# USER-SUPPLIED VALUES:
+# mcp-servers:
+#   weather:
+#     capabilities:
+#     - weather_lookup
+#     uri: http://mcp-weather:8000/sse
+# models:
+#   llama-3-2-3b-instruct:
+#     enabled: true
+---
+# Source: llama-stack/templates/secret.yaml
+kind: Secret
+apiVersion: v1
+metadata:
+  name: llama-stack-env
+type: Opaque
+data:
+---
+# Source: llama-stack/templates/configmap.yaml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: run-config
+data:
+  config.yaml: |
+    version: '2'
+    image_name: remote-vllm
+    apis:
+    - agents
+    - datasetio
+    - eval
+    - inference
+    - safety
+    - scoring
+    - telemetry
+    - tool_runtime
+    - vector_io
+    providers:
+      inference:
+      - provider_id: llama-3-2-3b-instruct
+        provider_type: remote::vllm
+        config:
+          url: http://llama-3-2-3b-instruct-predictor.common-llm.svc.cluster.local:8080/v1
+          api_token: fake
+          max_tokens: 4096
+          tls_verify: ${env.VLLM_TLS_VERIFY:false}
+      - provider_id: sentence-transformers
+        provider_type: inline::sentence-transformers
+        config: {}
+      vector_io:
+      - provider_id: faiss
+        provider_type: inline::faiss
+        config:
+          kvstore:
+            type: sqlite
+            namespace: null
+            db_path: ${env.SQLITE_STORE_DIR:~/.llama/distributions/remote-vllm}/faiss_store.db
+      - provider_id: pgvector
+        provider_type: remote::pgvector
+        config:
+          host: ${env.POSTGRES_HOST:pgvector}
+          port: ${env.POSTGRES_PORT:5432}
+          db: ${env.POSTGRES_DBNAME:rag_blueprint}
+          user: ${env.POSTGRES_USER:postgres}
+          password: ${env.POSTGRES_PASSWORD:rag_password}
+      safety:
+      - provider_id: llama-guard
+        provider_type: inline::llama-guard
+        config: {}
+      agents:
+      - provider_id: meta-reference
+        provider_type: inline::meta-reference
+        config:
+          persistence_store:
+            type: sqlite
+            namespace: null
+            db_path: ${env.SQLITE_STORE_DIR:~/.llama/distributions/remote-vllm}/agents_store.db
+      eval:
+      - provider_id: meta-reference
+        provider_type: inline::meta-reference
+        config:
+          kvstore:
+            type: sqlite
+            namespace: null
+            db_path: ${env.SQLITE_STORE_DIR:~/.llama/distributions/remote-vllm}/meta_reference_eval.db
+      datasetio:
+      - provider_id: huggingface
+        provider_type: remote::huggingface
+        config:
+          kvstore:
+            type: sqlite
+            namespace: null
+            db_path: ${env.SQLITE_STORE_DIR:~/.llama/distributions/remote-vllm}/huggingface_datasetio.db
+      - provider_id: localfs
+        provider_type: inline::localfs
+        config:
+          kvstore:
+            type: sqlite
+            namespace: null
+            db_path: ${env.SQLITE_STORE_DIR:~/.llama/distributions/remote-vllm}/localfs_datasetio.db
+      scoring:
+      - provider_id: basic
+        provider_type: inline::basic
+        config: {}
+      - provider_id: llm-as-judge
+        provider_type: inline::llm-as-judge
+        config: {}
+      - provider_id: braintrust
+        provider_type: inline::braintrust
+        config:
+          openai_api_key: ${env.OPENAI_API_KEY:}
+      telemetry:
+      - provider_id: meta-reference
+        provider_type: inline::meta-reference
+        config:
+          sinks: ${env.TELEMETRY_SINKS:console,sqlite}
+          sqlite_db_path: ${env.SQLITE_DB_PATH:~/.llama/distributions/remote-vllm/trace_store.db}
+      tool_runtime:
+      - provider_id: brave-search
+        provider_type: remote::brave-search
+        config:
+          api_key: ${env.BRAVE_SEARCH_API_KEY:}
+          max_results: 3
+      - provider_id: tavily-search
+        provider_type: remote::tavily-search
+        config:
+          api_key: ${env.TAVILY_SEARCH_API_KEY:}
+          max_results: 3
+      - provider_id: rag-runtime
+        provider_type: inline::rag-runtime
+        config: {}
+      - provider_id: model-context-protocol
+        provider_type: remote::model-context-protocol
+        config: {}
+    metadata_store:
+      type: sqlite
+      db_path: ${env.SQLITE_STORE_DIR:~/.llama/distributions/remote-vllm}/registry.db
+    models:
+    - metadata: {}
+      model_id: meta-llama/Llama-3.2-3B-Instruct
+      provider_id: llama-3-2-3b-instruct
+      model_type: llm
+    - metadata:
+        embedding_dimension: 384
+      model_id: all-MiniLM-L6-v2
+      provider_id: sentence-transformers
+      model_type: embedding
+    vector_dbs: []
+    datasets: []
+    scoring_fns: []
+    eval_tasks: []
+    tool_groups:
+    - toolgroup_id: builtin::websearch
+      provider_id: tavily-search
+    - toolgroup_id: builtin::rag
+      provider_id: rag-runtime
+    - toolgroup_id: mcp::weather
+      provider_id: model-context-protocol
+      mcp_endpoint:
+        uri: http://mcp-weather:8000/sse
+---
+# Source: llama-stack/templates/pvc.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: llama-stack-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  volumeMode: Filesystem
+---
+# Source: llama-stack/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: llamastack
+  labels:
+    helm.sh/chart: llama-stack-0.1.0
+    app.kubernetes.io/name: llamastack
+    app.kubernetes.io/instance: llama-stack
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8321
+      targetPort: 8321
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: llamastack
+    app.kubernetes.io/instance: llama-stack
+---
+# Source: llama-stack/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llamastack
+  labels:
+    helm.sh/chart: llama-stack-0.1.0
+    app.kubernetes.io/name: llamastack
+    app.kubernetes.io/instance: llama-stack
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: llamastack
+      app.kubernetes.io/instance: llama-stack
+  strategy:
+    type: Recreate
+  progressDeadlineSeconds: 3600
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: llama-stack-0.1.0
+        app.kubernetes.io/name: llamastack
+        app.kubernetes.io/instance: llama-stack
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      initContainers:
+        - name: wait-for-models
+          image: "llamastack/distribution-remote-vllm:0.2.6"
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              for url in http://llama-3-2-3b-instruct-predictor.common-llm.svc.cluster.local:8080/v1/models ; do
+                echo "Waiting for $url..."
+                until curl -ksf "$url"; do
+                  echo "Still waiting for $url ..."
+                  sleep 10
+                done
+                echo "$url is ready."
+              done
+              echo "All services are up."
+      containers:
+        - name: llama-stack
+          securityContext:
+            {}
+          image: "llamastack/distribution-remote-vllm:0.2.6"
+          imagePullPolicy: IfNotPresent
+          args:
+            - --config
+            - /app-config/config.yaml
+          env:
+            - name: VLLM_MAX_TOKENS
+              value: "4096"
+            - name: VLLM_API_TOKEN
+              value: fake
+            - name: OTEL_ENDPOINT
+              value: http://otel-collector-collector.observability-hub.svc.cluster.local:4318/v1/traces
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: pgvector
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: pgvector
+            - name: POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: pgvector
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: pgvector
+            - name: PGVECTOR_DBNAME
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: pgvector
+          envFrom:
+          - secretRef:
+              name: llama-stack-env
+          ports:
+            - name: http
+              containerPort: 8321
+              protocol: TCP
+          livenessProbe:
+            null
+          readinessProbe:
+            null
+          resources:
+            {}
+          volumeMounts:
+            - mountPath: /app-config
+              name: run-config-volume
+            - mountPath: /.llama
+              name: dot-llama
+            - mountPath: /.cache
+              name: cache
+      volumes:
+        - configMap:
+            defaultMode: 420
+            name: run-config
+          name: run-config-volume
+        - name: dot-llama
+          persistentVolumeClaim:
+            claimName: llama-stack-data
+        - emptyDir: {}
+          name: cache

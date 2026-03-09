@@ -8,6 +8,7 @@ commonLabels:
   app.kubernetes.io/part-of: py3ocp7ai-svc
 resources:
   - ci-tekton.yaml
+  - common-llm.yaml
   - application-dev.yaml
   - application-stage.yaml
   - application-prod.yaml

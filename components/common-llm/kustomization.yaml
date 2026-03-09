@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  argocd/app-name: common-llm
+  janus-idp.io/tekton: common-llm
+  backstage.io/kubernetes-id: common-llm
+  backstage.io/kubernetes-namespace: common-llm
+  app.kubernetes.io/part-of: common-llm
+resources:
+  - llama-stack.yaml
+  - llm-service.yaml
+  - mcp-servers.yaml
+  - pgvector.yaml

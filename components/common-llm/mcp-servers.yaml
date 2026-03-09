@@ -1,0 +1,71 @@
+# NAME: mcp-servers
+# CHART: mcp-servers
+# VERSION: 0.5.11
+# APP_VERSION: 0.5.11
+# ANNOTATIONS:
+# LABELS: modifiedAt=1763654224,name=mcp-servers,owner=helm,status=deployed,version=1
+# DEPENDENCIES:
+# NAMESPACE: common-llm
+# REVISION: 1
+# STATUS: deployed
+# DEPLOYED_AT: 2025-11-20T10:56:54-05:00
+# APPLY_METHOD: client-side apply (defaulted)
+#
+# USER-SUPPLIED VALUES:
+# mcp-servers:
+#   weather:
+#     enabled: true
+---
+# Source: mcp-servers/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mcp-weather
+  labels:
+    helm.sh/chart: mcp-servers-0.5.11
+    app.kubernetes.io/name: weather
+    app.kubernetes.io/instance: mcp-servers
+    app.kubernetes.io/version: "0.5.11"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: mcp-server
+    mcp.transport: sse
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+    name: http
+  selector:
+    app.kubernetes.io/name: weather
+    app.kubernetes.io/instance: mcp-servers
+---
+# Source: mcp-servers/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcp-weather
+  labels:
+    helm.sh/chart: mcp-servers-0.5.11
+    app.kubernetes.io/name: weather
+    app.kubernetes.io/instance: mcp-servers
+    app.kubernetes.io/version: "0.5.11"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: mcp-server
+    mcp.transport: sse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: weather
+      app.kubernetes.io/instance: mcp-servers
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: weather
+        app.kubernetes.io/instance: mcp-servers
+    spec:
+      containers:
+      - name: weather
+        image: "quay.io/rh-ai-quickstart/mcp-weather:0.5.11"
+        imagePullPolicy: Always
